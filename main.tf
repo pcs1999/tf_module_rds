@@ -40,9 +40,9 @@ resource "aws_rds_cluster" "rds" {
   engine_version                          = var.engine_version
   engine                                  = var.engine
   db_cluster_instance_class               = var.instance_class
-  storage_type                            = "io1"
-  allocated_storage                       = 20
-  iops                                    = 1000
+#  storage_type                            = "io1"
+#  allocated_storage                       = 20
+#  iops                                    = 1000
   master_username                         = data.aws_ssm_parameter.rds_ADMIN_USER.value
   master_password                         = data.aws_ssm_parameter.rds_ADMIN_PASS.value
   db_subnet_group_name                    = aws_db_subnet_group.subnet_group.name
@@ -55,14 +55,3 @@ resource "aws_rds_cluster" "rds" {
 }
 
 
-#resource "aws_db_cluster_instance" "cluster_instances" {
-#  count              = var.number_of_instances
-#  identifier         = "${var.env}-db-cluster-instance-${count.index +1 }"
-#  cluster_identifier = aws_rds_cluster.rds.id
-#  instance_class     = var.instance_class
-##  kms_key_id = data.aws_kms_key.key.arn
-##  storage_encrypted = true
-#
-#  tags = merge (local.common_tags, { Name = "${var.env}-rds_cluster_instance" } )
-#
-#}
