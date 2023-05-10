@@ -4,6 +4,6 @@ variable "vpc_id" {}
 variable "allow_cidr" {}
 variable "number_of_instances" {}
 variable "instance_class" {}
-variable "availability_zones" {}
+#variable "availability_zones" {}
 variable "engine_version" {}
 variable "engine" {}

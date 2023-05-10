@@ -29,7 +29,7 @@ resource "aws_security_group" "rds" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = merge (local.common_tags, { Name = "${var.env}-rds_subnet_group" } )
+  tags = merge (local.common_tags, { Name = "${var.env}-rds_security_group" } )
 
 }
 
@@ -39,18 +39,14 @@ resource "aws_rds_cluster" "rds" {
   cluster_identifier                      = "${var.env}-rds-cluster"
   engine_version                          = var.engine_version
   engine                                  = var.engine
-#  db_cluster_instance_class               = var.instance_class #
-#  storage_type                            = "io1"
-#  allocated_storage                       = 20
-#  iops                                    = 1000
   master_username                         = data.aws_ssm_parameter.rds_ADMIN_USER.value
   master_password                         = data.aws_ssm_parameter.rds_ADMIN_PASS.value
   db_subnet_group_name                    = aws_db_subnet_group.subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
-  storage_encrypted = true
-  kms_key_id = data.aws_kms_key.key.arn
+  vpc_security_group_ids                  = [aws_security_group.rds.id]
+  storage_encrypted                       = true
+  kms_key_id                              = data.aws_kms_key.key.arn
 
-  tags = merge (local.common_tags, { Name = "${var.env}-rds-cluster" } )
+  tags                                    = merge (local.common_tags, { Name = "${var.env}-rds-cluster" } )
 
 }
 
